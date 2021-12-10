@@ -57,7 +57,7 @@ export const makeSearch = ({
     while (true) {
       let result: JusoSearchResult | null = null;
 
-      const cacheKey = `juso:${page}:result`;
+      const cacheKey = `juso:${keyword}:${page}:result`;
       if (cacheFirst) {
         const cache = await namespace.get<JusoSearchResult>(cacheKey, { type: 'json' });
         if (cache) {
