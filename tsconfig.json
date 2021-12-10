@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM.Iterable", "WebWorker", "ES2020"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "isolatedModules": true
+  }
+}

@@ -1,0 +1,16 @@
+name = 'juso-edge'
+compatibility_date = '2021-12-10'
+type = 'javascript'
+account_id = 'aad5c82543cd1f267b89737d0f56405e'
+workers_dev = true
+
+[[kv_namespaces]]
+binding = 'INDEX'
+id = 'c4b42a5eae2a41cf997b7453b1724924'
+preview_id = 'c4b42a5eae2a41cf997b7453b1724924'
+
+[build]
+command = 'yarn esbuild src/worker.ts --bundle --outfile=dist/worker.js --format=esm'
+
+[build.upload]
+format = 'service-worker'
