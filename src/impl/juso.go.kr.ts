@@ -86,7 +86,6 @@ export const makeSearch = ({
           case 'E0006':
           case 'E0008':
           case 'E0009':
-            throw new InvalidArgumentsError(error);
           case 'E0010':
           case 'E0011':
           case 'E0012':
