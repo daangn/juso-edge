@@ -11,7 +11,6 @@ import { InvalidArgumentsError, UnauthorizedError, ServiceError } from '../error
  *
  * wrangler secret 커맨드로 관리합니다.
  *
- * @See https://app3.greenhouse.io/configure/dev_center/credentials
  * @See https://developers.cloudflare.com/workers/cli-wrangler/commands#secret
  */
 declare var JUSO_CONFIRM_KEY: string;
