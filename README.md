@@ -37,6 +37,11 @@ type Response = {
      * 지번 주소
      */
     jibunAddress: string,
+    
+    /**
+     * 우편번호
+     */
+    zipCode: string,
   }[],
 }
 ```
