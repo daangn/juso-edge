@@ -2,6 +2,11 @@
 
 Reliable edge proxy to the [Juso API](https://www.juso.go.kr/addrlink/devAddrLinkRequestGuide.do?menu=roadApi)
 
+- Global CDN powered by Cloudflare
+- HTTP/2 & HTTP/3 enabled
+- Constant & Fast response time
+- Cache-first
+
 ## Usage
 
 e.g. Request URL for `신논현` is [`https://juso-edge.karrot.workers.dev/search/신논현`](https://juso-edge.karrot.workers.dev/search/신논현)
