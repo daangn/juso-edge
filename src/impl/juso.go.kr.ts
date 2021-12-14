@@ -46,7 +46,7 @@ export const makeSearch = ({
     if (keyword.length > 80) {
       throw new InvalidArgumentsError(errors['E0010']);
     }
-    if (!/[a-zA-Z가-힣]/.test(keyword)) {
+    if (!/[a-zA-Zㄱ-ㅎ가-힣]/.test(keyword)) {
       throw new InvalidArgumentsError(errors['E0012']);
     }
     if (/[\%\=\>\<\[\]]/.test(keyword)) {
