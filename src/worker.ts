@@ -1,4 +1,4 @@
-import { Router, listen } from 'worktop';
+import { Router } from 'worktop';
 import * as Cache from 'worktop/cache';
 import * as CORS from 'worktop/cors';
 import type { KV } from 'worktop/kv';
