@@ -42,16 +42,16 @@ API.add('GET', '/search/:keyword', async (req, res) => {
     });
   } catch (error) {
     if (error instanceof InvalidArgumentsError) {
-      return res.send(400, error.message);
+      return res.send(400, { message: error.message });
     } else if (error instanceof UnauthorizedError) {
       console.error(error);
-      return res.send(401, error.message);
+      return res.send(401, { message: error.message });
     } else if (error instanceof ServiceError) {
       console.error(error);
-      return res.send(502, error.message);
+      return res.send(502, { message: error.message });
     } else {
       console.error(error);
-      return res.send(500, 'Internal Server Error');
+      return res.send(500, { message: 'Internal Server Error' });
     }
   }
 });
