@@ -27,7 +27,7 @@ API.add('GET', '/search/:keyword', async (req, res) => {
     const offset = (page - 1) * perPage;
     for await (const item of search({ keyword, offset })) {
       items.push(item);
-      if (items.length === perPage) {
+      if (items.length === perPage + 1) {
         break;
       }
     }
@@ -36,7 +36,10 @@ API.add('GET', '/search/:keyword', async (req, res) => {
     } else {
       res.setHeader('Cache-Control', `must-revalidate`);
     }
-    return res.send(200, { items });
+    return res.send(200, {
+      hasNext: items.length > perPage,
+      items: items.slice(0, perPage),
+    });
   } catch (error) {
     if (error instanceof InvalidArgumentsError) {
       return res.send(400, error.message);

@@ -27,6 +27,8 @@ GET "https://juso-edge.karrot.workers.dev/search/%EC%8B%A0%EB%85%BC%ED%98%84"
 
 ```ts
 type Response = {
+  hasNext: boolean,
+
   items: {
     /**
      * 도로명 주소
