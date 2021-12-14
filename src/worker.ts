@@ -26,8 +26,9 @@ API.add('GET', '/search/:keyword', async (req, res) => {
   }
 
   // TODO: allow unlimited pagination with jsonl stream
-  if (perPage > 100) {
-    return res.send(400, { message: 'perPage must be less than 500' });
+  const maxPerPage = 100;
+  if (perPage > maxPerPage) {
+    return res.send(400, { message: `perPage must be less than ${maxPerPage}` });
   }
 
   const search = makeSearch({ namespace: INDEX, cacheFirst });
