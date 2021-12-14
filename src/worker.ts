@@ -21,6 +21,15 @@ API.add('GET', '/search/:keyword', async (req, res) => {
   const proxy = searchParams.get('proxy') === 'true';
   const cacheFirst = !proxy;
 
+  if (page < 0) {
+    return res.send(400, { message: 'page must be greater than zero' });
+  }
+
+  // TODO: allow unlimited pagination with jsonl stream
+  if (perPage > 100) {
+    return res.send(400, { message: 'perPage must be less than 500' });
+  }
+
   const search = makeSearch({ namespace: INDEX, cacheFirst });
   try {
     const items: SearchResult[] = [];
