@@ -15,6 +15,8 @@ e.g. Request URL for `신논현` is [`https://juso-edge.karrot.workers.dev/searc
 GET "https://juso-edge.karrot.workers.dev/search/%EC%8B%A0%EB%85%BC%ED%98%84"
 ```
 
+See [CodeSandbox](https://codesandbox.io/s/juso-react-ki87i) demo
+
 ### Options
 
 | Param     | Format         | Description                                      | Default Value    |
