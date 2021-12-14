@@ -19,11 +19,11 @@ See [CodeSandbox](https://codesandbox.io/s/juso-react-ki87i) demo
 
 ### Options
 
-| Param     | Format         | Description                                      | Default Value    |
-| :-------- | :------------- | :----------------------------------------------- | ---------------: |
-| `page`    | Integer (>  0) | 시작 페이지                                      |            `"1"` |
-| `perPage` | Integer (>= 0) | 페이지 당 최대 아이템 갯수                       |           `"10"` |
-| `proxy`   | Boolean        | Proxy 모드 활성화 시 모든 캐시 동작이 opt-out 됨 |        `"false"` |
+| Param     | Format         | Description                              | Default Value    |
+| :-------- | :------------- | :--------------------------------------- | ---------------: |
+| `page`    | Integer (>  0) | number of page                           |            `"1"` |
+| `perPage` | Integer (>= 0) | max item count per page                  |           `"10"` |
+| `proxy`   | Boolean        | opt-out all downstream cache behavior    |        `"false"` |
 
 ### Response
 
