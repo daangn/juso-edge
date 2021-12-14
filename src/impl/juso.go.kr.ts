@@ -112,12 +112,17 @@ export const makeSearch = ({
         };
       }
 
+      const totalCount = +response.common.totalCount;
+      const maxPage = Math.ceil(totalCount / PER_PAGE);
+
       iterCount += response.juso.length;
-      if (+response.common.totalCount <= iterCount) {
+      if (iterCount >= totalCount) {
         break;
       }
 
-      page++;
+      if (page++ >= maxPage) {
+        break;
+      }
     }
   }
 
