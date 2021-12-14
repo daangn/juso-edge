@@ -3,7 +3,7 @@ import * as Cache from 'worktop/cache';
 import * as CORS from 'worktop/cors';
 import type { KV } from 'worktop/kv';
 
-import { InvalidArgumentsError, ServiceError } from './error';
+import { InvalidArgumentsError, UnauthorizedError, ServiceError } from './error';
 import type { SearchResult } from './search';
 import { makeSearch } from './impl/juso.go.kr';
 
@@ -40,9 +40,12 @@ API.add('GET', '/search/:keyword', async (req, res) => {
   } catch (error) {
     if (error instanceof InvalidArgumentsError) {
       return res.send(400, error.message);
+    } else if (error instanceof UnauthorizedError) {
+      console.error(error);
+      return res.send(401, error.message);
     } else if (error instanceof ServiceError) {
       console.error(error);
-      return res.send(500, error.message);
+      return res.send(502, error.message);
     } else {
       console.error(error);
       return res.send(500, 'Internal Server Error');
