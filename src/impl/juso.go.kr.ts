@@ -97,7 +97,7 @@ export const makeSearch = ({
             throw new ServiceError(error);
         }
 
-        namespace.put(cacheKey, JSON.stringify(body), { expirationTtl: 60 * 60 * 24 });
+        namespace.put(cacheKey, JSON.stringify(body), { expirationTtl: 60 * 60 * 24 * 30 });
         result = body;
       }
 
