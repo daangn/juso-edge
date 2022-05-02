@@ -14,7 +14,7 @@ const API = new Router();
 API.prepare = CORS.preflight();
 
 API.add('GET', '/search/:keyword', async (req, res) => {
-  const keyword = decodeURIComponent(req.params.keyword);
+  const keyword = decodeURIComponent(req.params.keyword).trim();
   const searchParams = new URLSearchParams(req.search);
   const page = parseInt(searchParams.get('page') as string) || 1;
   const perPage = parseInt(searchParams.get('perPage') as string) || 10;
