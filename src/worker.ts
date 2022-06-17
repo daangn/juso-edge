@@ -25,7 +25,7 @@ API.prepare = compose(
   CORS.preflight(),
   function (request, context) {
     const useLogflare = Boolean(
-      process.env.NODE_ENV !== 'development' &&
+      context.bindings.USE_LOGFLARE === 'true' &&
       context.bindings.LOGFLARE_SOURCE &&
       context.bindings.LOGFLARE_API_KEY
     );
@@ -71,6 +71,10 @@ API.add('GET', '/search/:keyword', async (_req, context) => {
   try {
     const items: SearchResult[] = [];
     const offset = (page - 1) * perPage;
+
+    context.reporter.log(`Searching ${perPage} for ${keyword} from page=${page}`);
+    context.reporter.log(`Iteration starts from ${offset}`);
+
     for await (const item of search({ keyword, offset })) {
       items.push(item);
       if (items.length === perPage + 1) {

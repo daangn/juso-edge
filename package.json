@@ -2,6 +2,10 @@
   "name": "juso-edge",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "dev": "wrangler dev",
+    "publish": "wrangler publish"
+  },
   "dependencies": {
     "workers-logger": "^0.2.0",
     "worktop": "next"

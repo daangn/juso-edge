@@ -56,9 +56,11 @@ export const makeSearch = ({
       if (cacheFirst) {
         const cache = await namespace.get<JusoSearchResult>(cacheKey, { type: 'json' });
         if (cache) {
-          context.reporter.debug(`Cache hit: ${cacheKey}`);
+          context.reporter.log(`Cache hit: ${cacheKey}`);
           result = cache;
         }
+      } else {
+        context.reporter.log('Ignore cache');
       }
 
       if (!result) {
@@ -91,7 +93,7 @@ export const makeSearch = ({
           JSON.stringify(body),
           { expirationTtl: 60 * 60 * 24 * 30 },
         );
-        context.reporter.debug(`Cache written: ${cacheKey}`);
+        context.reporter.log(`Cache written: ${cacheKey}`);
 
         result = body;
       }

@@ -17,6 +17,7 @@ export interface Context extends WorktopContext, ReporterContext {
     */
     JUSO_CONFIRM_KEY: string;
 
+    USE_LOGFLARE: string;
     LOGFLARE_SOURCE?: string;
     LOGFLARE_API_KEY?: string;
   };

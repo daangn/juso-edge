@@ -10,6 +10,7 @@ id = '0f9a0b3bcd504555b91373dca18fec94'
 preview_id = '148ed37fafe24dce984d659acf035b89'
 
 [vars]
+USE_LOGFLARE = true
 LOGFLARE_SOURCE = '1be10ca3-1885-4d6a-8892-d17cf9a2353b'
 
 # [secrets]
