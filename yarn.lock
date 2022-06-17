@@ -26,6 +26,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@types/node@npm:18.0.0"
+  checksum: aab2b325727a2599f6d25ebe0dedf58c40fb66a51ce4ca9c0226ceb70fcda2d3afccdca29db5942eb48b158ee8585a274a1e3750c718bbd5399d7f41d62dfdcc
+  languageName: node
+  linkType: hard
+
 "axios@npm:^0.21.1":
   version: 0.21.4
   resolution: "axios@npm:0.21.4"
@@ -63,6 +70,13 @@ __metadata:
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 902a9f5d8967a3e2faf138d5cb784b9979bad2e6db5357c5b21c568df4ebe62bcb15108af1b2253744844eb964fc023fbd9afbbbb6ddd0bcc204c6fb5b7bf3af
+  languageName: node
+  linkType: hard
+
+"diary@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "diary@npm:0.3.0"
+  checksum: 865355df6ca958f31979d08bd689cb0b9646765c638f4435a1548a0b002b925b4585ce4a506ab50c7d71e7079f9c397dc8aa3a5dfdea20fe225ab992bbbfc0ba
   languageName: node
   linkType: hard
 
@@ -340,8 +354,10 @@ __metadata:
   dependencies:
     "@cloudflare/workers-types": ^3.13.0
     "@cloudflare/wrangler": ^1.19.12
+    "@types/node": ^18.0.0
     esbuild: ^0.14.45
     typescript: ^4.7.3
+    workers-logger: ^0.2.0
     worktop: next
   languageName: unknown
   linkType: soft
@@ -455,6 +471,15 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 8257ce7ecbbf9416da60045a76a99d473698ca9e973fa0ddab7137cacb1587255431176cbbcc801a650938c4dc8109ab88355774829a714fabe56a53a2fe4524
+  languageName: node
+  linkType: hard
+
+"workers-logger@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "workers-logger@npm:0.2.0"
+  dependencies:
+    diary: ^0.3.0
+  checksum: df50bba99a5d026a57a46534ab36b3d462fad85ca778b36a9672e9ad0a06fd908a762f05135766731b4599c031ebbf20ccc6440306fb6f71ff42fa4b495fefe3
   languageName: node
   linkType: hard
 

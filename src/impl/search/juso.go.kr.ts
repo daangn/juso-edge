@@ -1,8 +1,9 @@
 import type { KV } from 'worktop/cfw.kv';
 
-import type { Search, SearchParameters, SearchResult } from '../search';
-import type { ErrorMetadata } from '../error';
-import { InvalidArgumentsError, UnauthorizedError, ServiceError } from '../error';
+import type { Context } from '../../context';
+import type { Search, SearchParameters, SearchResult } from '../../search';
+import type { ErrorMetadata } from '../../error';
+import { InvalidArgumentsError, UnauthorizedError, ServiceError } from '../../error';
 
 const API_ENDPOINT = 'https://www.juso.go.kr/addrlink/addrLinkApi.do';
 
@@ -12,12 +13,14 @@ const PER_PAGE = 20;
 const UPSTREAM_TIMEOUT = 3 * 1000;
 
 type Config = {
+  context: Context,
   confirmKey: string,
   namespace: KV.Namespace,
   cacheFirst?: boolean,
 };
 
 export const makeSearch = ({
+  context,
   confirmKey,
   namespace,
   cacheFirst = true,
@@ -53,7 +56,7 @@ export const makeSearch = ({
       if (cacheFirst) {
         const cache = await namespace.get<JusoSearchResult>(cacheKey, { type: 'json' });
         if (cache) {
-          console.debug(`Cache hit: ${cacheKey}`);
+          context.reporter.debug(`Cache hit: ${cacheKey}`);
           result = cache;
         }
       }
@@ -70,7 +73,7 @@ export const makeSearch = ({
         // @ts-ignore
         setTimeout(() => timeoutController.abort(), UPSTREAM_TIMEOUT);
 
-        console.debug(url.toString());
+        context.reporter.debug(url.toString());
         const response = await fetch(url.toString(), {
           signal: timeoutController.signal,
         });
@@ -88,7 +91,7 @@ export const makeSearch = ({
           JSON.stringify(body),
           { expirationTtl: 60 * 60 * 24 * 30 },
         );
-        console.debug(`Cache written: ${cacheKey}`);
+        context.reporter.debug(`Cache written: ${cacheKey}`);
 
         result = body;
       }
@@ -129,7 +132,7 @@ export const makeSearch = ({
           jibunAddress: juso.jibunAddr,
           zipCode: juso.zipNo,
         };
-        console.debug(iterCount, juso);
+        context.reporter.debug(`iteration: ${iterCount}`, juso);
       }
 
       const totalCount = +response.common.totalCount;
