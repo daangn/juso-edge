@@ -9,8 +9,13 @@ binding = 'INDEX'
 id = '0f9a0b3bcd504555b91373dca18fec94'
 preview_id = '148ed37fafe24dce984d659acf035b89'
 
+# [[secrets]]
+# JUSO_CONFIRM_KEY
+
 [build]
-command = 'yarn esbuild src/worker.ts --bundle --outfile=dist/worker.js --format=esm'
+command = 'yarn esbuild src/worker.ts --bundle --outfile=dist/worker.mjs --format=esm'
 
 [build.upload]
-format = 'service-worker'
+format = 'modules'
+dir = './dist'
+main = './worker.mjs'

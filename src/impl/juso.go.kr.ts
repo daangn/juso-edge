@@ -1,19 +1,8 @@
-import type { KV } from 'worktop/kv';
+import type { KV } from 'worktop/cfw.kv';
 
 import type { Search, SearchParameters, SearchResult } from '../search';
 import type { ErrorMetadata } from '../error';
 import { InvalidArgumentsError, UnauthorizedError, ServiceError } from '../error';
-
-/**
- * 도로명주소 API Confirm Key
- *
- * @see https://www.juso.go.kr/addrlink/devAddrLinkRequestWrite.do?returnFn=write&cntcMenu=URL
- *
- * wrangler secret 커맨드로 관리합니다.
- *
- * @See https://developers.cloudflare.com/workers/cli-wrangler/commands#secret
- */
-declare var JUSO_CONFIRM_KEY: string;
 
 const API_ENDPOINT = 'https://www.juso.go.kr/addrlink/addrLinkApi.do';
 
@@ -23,11 +12,13 @@ const PER_PAGE = 20;
 const UPSTREAM_TIMEOUT = 3 * 1000;
 
 type Config = {
+  confirmKey: string,
   namespace: KV.Namespace,
   cacheFirst?: boolean,
 };
 
 export const makeSearch = ({
+  confirmKey,
   namespace,
   cacheFirst = true,
 }: Config): Search => {
@@ -69,15 +60,17 @@ export const makeSearch = ({
 
       if (!result) {
         const url = new URL(API_ENDPOINT);
-        url.searchParams.set('confmKey', JUSO_CONFIRM_KEY);
+        url.searchParams.set('confmKey', confirmKey);
         url.searchParams.set('resultType', 'json');
         url.searchParams.set('countPerPage', PER_PAGE.toString());
         url.searchParams.set('currentPage', page.toString());
         url.searchParams.set('keyword', keyword);
 
         const timeoutController = new AbortController();
+        // @ts-ignore
         setTimeout(() => timeoutController.abort(), UPSTREAM_TIMEOUT);
 
+        console.debug(url.toString());
         const response = await fetch(url.toString(), {
           signal: timeoutController.signal,
         });
