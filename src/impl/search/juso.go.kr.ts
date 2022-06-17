@@ -49,7 +49,10 @@ export const makeSearch = ({
       throw new InvalidArgumentsError(errors['E0013']);
     }
 
+    context.reporter.debug(`Start iteration from ${offset}`);
     while (true) {
+      context.reporter.debug(`iteration %i`, iterCount - offset);
+
       let result: JusoSearchResult | null = null;
 
       const cacheKey = `juso:${keyword}:${page}:result`;
@@ -75,7 +78,8 @@ export const makeSearch = ({
         // @ts-ignore
         setTimeout(() => timeoutController.abort(), UPSTREAM_TIMEOUT);
 
-        context.reporter.debug(url.toString());
+        context.reporter.info('Send request to the Juso API');
+        context.reporter.debug('URL: %s', url.toString());
         const response = await fetch(url.toString(), {
           signal: timeoutController.signal,
         });
@@ -134,7 +138,7 @@ export const makeSearch = ({
           jibunAddress: juso.jibunAddr,
           zipCode: juso.zipNo,
         };
-        context.reporter.debug(`iteration: ${iterCount}`, juso);
+        context.reporter.debug(`juso %i %o`, iterCount, juso);
       }
 
       const totalCount = +response.common.totalCount;
@@ -148,6 +152,7 @@ export const makeSearch = ({
         break;
       }
     }
+    context.reporter.debug('End iteration');
   }
 
   return search;

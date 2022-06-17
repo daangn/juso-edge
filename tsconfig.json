@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["DOM.Iterable", "WebWorker", "ES2020"],
+    "lib": ["DOM.Iterable", "WebWorker", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "strict": true,

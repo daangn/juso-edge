@@ -4,6 +4,8 @@ import type { Context as ReporterContext } from './reporter';
 
 export interface Context extends WorktopContext, ReporterContext {
   bindings: {
+    DEBUG?: string;
+
     INDEX: KV.Namespace;
 
     /**
