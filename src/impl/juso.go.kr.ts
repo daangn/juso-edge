@@ -18,7 +18,9 @@ declare var JUSO_CONFIRM_KEY: string;
 const API_ENDPOINT = 'https://www.juso.go.kr/addrlink/addrLinkApi.do';
 
 // Fixed size for indexing
-const PER_PAGE = 10;
+const PER_PAGE = 20;
+
+const UPSTREAM_TIMEOUT = 3 * 1000;
 
 type Config = {
   namespace: KV.Namespace,
@@ -60,6 +62,7 @@ export const makeSearch = ({
       if (cacheFirst) {
         const cache = await namespace.get<JusoSearchResult>(cacheKey, { type: 'json' });
         if (cache) {
+          console.debug(`Cache hit: ${cacheKey}`);
           result = cache;
         }
       }
@@ -72,10 +75,35 @@ export const makeSearch = ({
         url.searchParams.set('currentPage', page.toString());
         url.searchParams.set('keyword', keyword);
 
-        const response = await fetch(url.toString());
+        const timeoutController = new AbortController();
+        setTimeout(() => timeoutController.abort(), UPSTREAM_TIMEOUT);
+
+        const response = await fetch(url.toString(), {
+          signal: timeoutController.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Unexpected error response from upstream, status: ${response.status}, text: ${response.statusText}`,
+          );
+        }
+
         const body = await response.json() as JusoSearchResult;
 
-        const errorCode = body.results.common.errorCode;
+        await namespace.put(
+          cacheKey,
+          JSON.stringify(body),
+          { expirationTtl: 60 * 60 * 24 * 30 },
+        );
+        console.debug(`Cache written: ${cacheKey}`);
+
+        result = body;
+      }
+
+      const { results: response } = result;
+
+      if (!response.juso) {
+        const errorCode = response.common.errorCode;
         const error = errors[errorCode];
         switch (errorCode) {
           case '-999':
@@ -95,27 +123,25 @@ export const makeSearch = ({
             throw new UnauthorizedError(error);
           case 'E0015':
             throw new ServiceError(error);
+          default:
+            throw new ServiceError(errors['-999']);
         }
-
-        namespace.put(cacheKey, JSON.stringify(body), { expirationTtl: 60 * 60 * 24 * 30 });
-        result = body;
       }
 
-      const { results: response } = result;
-
       for (const juso of response.juso) {
+        iterCount += 1;
         yield {
           address: juso.roadAddrPart1,
           enAddress: juso.engAddr,
           jibunAddress: juso.jibunAddr,
           zipCode: juso.zipNo,
         };
+        console.debug(iterCount, juso);
       }
 
       const totalCount = +response.common.totalCount;
       const maxPage = Math.ceil(totalCount / PER_PAGE);
-
-      iterCount += response.juso.length;
+      
       if (iterCount >= totalCount) {
         break;
       }
@@ -142,7 +168,7 @@ type JusoSearchResult = {
       errorMessage: string,
     },
 
-    juso: Array<{
+    juso: null | Array<{
 
       /**
       * 전체 도로명 주소

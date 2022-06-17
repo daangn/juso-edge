@@ -6,8 +6,8 @@ workers_dev = true
 
 [[kv_namespaces]]
 binding = 'INDEX'
-id = 'c4b42a5eae2a41cf997b7453b1724924'
-preview_id = 'c4b42a5eae2a41cf997b7453b1724924'
+id = '0f9a0b3bcd504555b91373dca18fec94'
+preview_id = '148ed37fafe24dce984d659acf035b89'
 
 [build]
 command = 'yarn esbuild src/worker.ts --bundle --outfile=dist/worker.js --format=esm'
