@@ -1,5 +1,7 @@
 # Juso @ Edge ⚡
 
+**⚠️ 캐시되지 않은 대부분의 요청이 타임아웃 에러(408)와 함께 실패하고 있습니다. Cloudflare Workers에서 사용하는 대부분의 IP가 차단되고 있는 것으로 보입니다. Cloudflare Workers는 IP를 특정할 수 없어 방화벽 등록 요청에도 어려움을 겪고 있습니다. 혹시 이와 같은 서비스가 필요한 경우 IP를 특정하기 쉬운 서버에 포팅해서 사용하시길 권장드립니다.**
+
 Reliable edge proxy to the [Juso API](https://www.juso.go.kr/addrlink/devAddrLinkRequestGuide.do?menu=roadApi)
 
 - Global CDN powered by Cloudflare
