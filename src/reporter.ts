@@ -2,7 +2,7 @@ import type { Handler, Context as WorktopContext } from 'worktop';
 import type { Reporter, Tracker } from 'workers-logger';
 import { enable, track as trackReporter } from 'workers-logger';
 
-export type { Reporter };
+export type { Reporter, Tracker as ReporterTracker };
 
 export interface Context extends WorktopContext {
   reporter: Tracker,

@@ -68,7 +68,7 @@ API.add('GET', '/search/:keyword', async (_req, context) => {
   }
 
   const search = makeSearch({
-    context,
+    reporter: context.reporter,
     confirmKey: context.bindings.JUSO_CONFIRM_KEY,
     namespace: context.bindings.INDEX,
     cacheFirst,

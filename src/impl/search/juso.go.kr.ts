@@ -1,6 +1,6 @@
 import type { KV } from 'worktop/cfw.kv';
 
-import type { Context } from '../../context';
+import type { ReporterTracker } from '../../reporter';
 import type { Search, SearchParameters, SearchResult } from '../../search';
 import type { ErrorMetadata } from '../../error';
 import { InvalidArgumentsError, UnauthorizedError, ServiceError } from '../../error';
@@ -13,14 +13,14 @@ const PER_PAGE = 20;
 const UPSTREAM_TIMEOUT = 3 * 1000;
 
 type Config = {
-  context: Context,
+  reporter: ReporterTracker,
   confirmKey: string,
   namespace: KV.Namespace,
   cacheFirst?: boolean,
 };
 
 export const makeSearch = ({
-  context,
+  reporter,
   confirmKey,
   namespace,
   cacheFirst = true,
@@ -49,9 +49,9 @@ export const makeSearch = ({
       throw new InvalidArgumentsError(errors['E0013']);
     }
 
-    context.reporter.debug(`Start iteration from ${offset}`);
+    reporter.debug(`Start iteration from ${offset}`);
     while (true) {
-      context.reporter.debug(`iteration %i`, iterCount - offset);
+      reporter.debug(`iteration %i`, iterCount - offset);
 
       let result: JusoSearchResult | null = null;
 
@@ -59,11 +59,11 @@ export const makeSearch = ({
       if (cacheFirst) {
         const cache = await namespace.get<JusoSearchResult>(cacheKey, { type: 'json' });
         if (cache) {
-          context.reporter.log(`Cache hit: ${cacheKey}`);
+          reporter.log(`Cache hit: ${cacheKey}`);
           result = cache;
         }
       } else {
-        context.reporter.log('Ignore cache');
+        reporter.log('Ignore cache');
       }
 
       if (!result) {
@@ -78,8 +78,8 @@ export const makeSearch = ({
         // @ts-ignore
         setTimeout(() => timeoutController.abort(), UPSTREAM_TIMEOUT);
 
-        context.reporter.info('Send request to the Juso API');
-        context.reporter.debug('URL: %s', url.toString());
+        reporter.info('Send request to the Juso API');
+        reporter.debug('URL: %s', url.toString());
         const response = await fetch(url.toString(), {
           signal: timeoutController.signal,
         });
@@ -97,7 +97,7 @@ export const makeSearch = ({
           JSON.stringify(body),
           { expirationTtl: 60 * 60 * 24 * 30 },
         );
-        context.reporter.log(`Cache written: ${cacheKey}`);
+        reporter.log(`Cache written: ${cacheKey}`);
 
         result = body;
       }
@@ -138,7 +138,7 @@ export const makeSearch = ({
           jibunAddress: juso.jibunAddr,
           zipCode: juso.zipNo,
         };
-        context.reporter.debug(`juso %i %o`, iterCount, juso);
+        reporter.debug(`juso %i %o`, iterCount, juso);
       }
 
       const totalCount = +response.common.totalCount;
@@ -152,7 +152,7 @@ export const makeSearch = ({
         break;
       }
     }
-    context.reporter.debug('End iteration');
+    reporter.debug('End iteration');
   }
 
   return search;
