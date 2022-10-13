@@ -1,7 +1,9 @@
 name = 'juso-edge'
-compatibility_date = '2021-12-10'
-type = 'javascript'
-account_id = 'aad5c82543cd1f267b89737d0f56405e'
+main = 'src/worker.ts'
+compatibility_date = '2022-10-12'
+compatibility_flags = [
+  'url_standard',
+]
 workers_dev = true
 
 [[kv_namespaces]]
@@ -16,11 +18,3 @@ LOGFLARE_SOURCE = '1be10ca3-1885-4d6a-8892-d17cf9a2353b'
 # [secrets]
 # JUSO_CONFIRM_KEY
 # LOGFLARE_API_KEY
-
-[build]
-command = 'yarn esbuild src/worker.ts --bundle --outfile=dist/worker.mjs --format=esm --conditions=worker'
-
-[build.upload]
-format = 'modules'
-dir = './dist'
-main = './worker.mjs'
